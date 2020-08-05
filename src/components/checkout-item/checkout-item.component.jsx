@@ -19,6 +19,7 @@ const CheckoutItem = ({checkoutItem, removeItem, addItem, decreaseQuantityByOne}
             </span>
             <span className="price">{price}</span>
             <div className="remove-button" onClick={() => removeItem(checkoutItem)}>&#10005;</div>
+
         </div>
     )
 };
