@@ -33,6 +33,8 @@ class App extends React.Component {
             }
 
             setCurrentUser(userAuth);
+            // Only fire once to upload data into firebase.
+            // addCollectionAndDocuments("collections", collectionsArray.map(({title, items}) => ({title, items})))
         });
 
 
