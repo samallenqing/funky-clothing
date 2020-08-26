@@ -1,8 +1,9 @@
 import React from "react";
-import {auth, createUserProfileDocument} from "../../firebase/firebase.utils";
+import {connect} from "react-redux"
 import CustomButton from "../custom-button/custom-button.component";
 import FormInput from "../form-input/form-input.component";
 import './sign-up.styles.scss'
+import {singUpStart} from "../../redux/user/user.action";
 
 class SignUP extends React.Component {
     constructor() {
@@ -18,26 +19,30 @@ class SignUP extends React.Component {
     handleSubmit = async event => {
         event.preventDefault();
 
+        const {signUpStart} = this.props;
         const {displayName, email, password, confirmPassword} = this.state;
+
 
         if (password !== confirmPassword) {
             alert("passwords does not match");
             return;
         }
 
-        try {
-            const {user} = await auth.createUserWithEmailAndPassword(email, password);
+        signUpStart({displayName, email, password})
 
-            await createUserProfileDocument(user, {displayName});
-            this.setState({
-                displayName: '',
-                email: '',
-                password: '',
-                confirmPassword: ''
-            })
-        } catch (error) {
-            console.error(error)
-        }
+        // try {
+        //     const {user} = await auth.createUserWithEmailAndPassword(email, password);
+        //
+        //     await createUserProfileDocument(user, {displayName});
+        //     this.setState({
+        //         displayName: '',
+        //         email: '',
+        //         password: '',
+        //         confirmPassword: ''
+        //     })
+        // } catch (error) {
+        //     console.error(error)
+        // }
     };
 
     handleChange = event => {
@@ -85,4 +90,8 @@ class SignUP extends React.Component {
     }
 }
 
-export default SignUP
+const mapDispatchToProps = dispatch => ({
+    signUpStart: userCredentials => dispatch(singUpStart(userCredentials))
+})
+
+export default connect(null, mapDispatchToProps)(SignUP)
